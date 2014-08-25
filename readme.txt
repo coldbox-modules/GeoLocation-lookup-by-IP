@@ -10,6 +10,8 @@ This is a ColdBox Module that will retrieve the following info for you based on 
 - longitude
 - timeZone
 
+<cfdump var="#getModel( 'GeoLocation@GeoLocation' ).getLocation()#">
+
 Drop the module inside your modules directory and access it via getModel("GeoLocation@GeoLocation"). The module has the following configuration fields inside:
 
 // Should results be cached

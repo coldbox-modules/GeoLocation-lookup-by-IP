@@ -1,7 +1,7 @@
 {
 	"name" 		: "GeoLocation By IP",
 	"author" 	: "Brad Wood <brad@codersrevolution.com.com",
-	"version"	: "1.0.0",
+	"version"	: "2.0.0",
 	"slug"		: "geolocation-lookup-by-ip",
 	"shortDescription" : "Look up and cache a user's countryCode, countryName, regionName, cityName, , zipCode, latitude, longitude, and timeZone by IP address.",
 	"type"		: "modules",
