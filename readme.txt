@@ -1,6 +1,6 @@
-6/7/2013
+8/25/2013
 
-This is a ColdBox plugin that will retrieve the following info for you based on your user's IP address using the API available at http://www.ipinfodb.com:
+This is a ColdBox Module that will retrieve the following info for you based on your user's IP address using the API available at http://www.ipinfodb.com:
 - countryCode
 - countryName
 - regionName
@@ -10,7 +10,7 @@ This is a ColdBox plugin that will retrieve the following info for you based on 
 - longitude
 - timeZone
 
-Drop the plugin inside your plugins directory and access it via getMyPlugin("GeoLocation"). The plugin has the following configuration fields inside:
+Drop the module inside your modules directory and access it via getModel("GeoLocation@GeoLocation"). The module has the following configuration fields inside:
 
 // Should results be cached
 cache = true
@@ -20,9 +20,21 @@ cacheTimeout = '10'
 cacheLastAccessTimeout = '5'
 // Name of CacheBox provider to use
 cacheName = "default"
+// Prefix to be used for cache keys
+cacheKeyPrefix = 'GeoLocation-' 
 // Register here for free:
 // http://www.ipinfodb.com
 developerKey = ''
+
+Override these settings by placing the following in your ColdBox app's config file:
+
+settings = {
+	'geolocation-lookup-by-ip' = {
+		settings = {
+			developerKey = 'abc123'
+		}
+	}
+};
 
 There are two two public methods:
 
@@ -30,7 +42,7 @@ var result = GeoLocation.getLocation();
 
 By default, it will use the IP address obtained from the CGI scope (taking into account a forwarded request)
 By default, this method will also cache the result in your default CacheBox provider for 10 minutes.
-This method takes the following optional parameters that override the plugin defaults:
+This method takes the following optional parameters that override the module defaults:
 
 - IPAddress
 - cache
@@ -42,7 +54,7 @@ This method takes the following optional parameters that override the plugin def
 GeoLcation.clearCache();
 
 This method will clear out any items in the cache that it put there.
-This method takes the following optional parameter that override the plugin defaults:
+This method takes the following optional parameter that override the module defaults:
 - cacheName
 
 This code comes with no warranties, promises, or rainbows.  In fact, it will probably kick your cat.

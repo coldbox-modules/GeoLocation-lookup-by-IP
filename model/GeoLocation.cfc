@@ -1,30 +1,14 @@
-﻿<cfcomponent name="GeoLocation" hint="I determine a user's location by their IP address" extends="coldbox.system.Plugin" output="false" cache="true">
+﻿<cfcomponent name="GeoLocation" hint="I determine a user's location by their IP address" output="false" singleton>
+	<cfproperty name="cachebox" inject="cachebox">
+	<cfproperty name="log" inject="logbox:logger:{this}">
+	<cfproperty name="settings" inject="coldbox:moduleSettings:geolocation-lookup-by-ip">
 	
-    <cffunction name="init" access="public" returntype="GeoLocation" output="false">
-		<cfargument name="controller" type="any" required="true">
-		<cfscript>
-  		super.Init(arguments.controller);
-  		
-  		setpluginName("GeoLocation");
-  		setpluginVersion("1.0");
-  		setpluginDescription("I determine a user's location by their IP address");
-  		
-		variables.instance.cacheKeyPrefix = 'GeoLocation-';
-		
-		// Setting these here will apply to all calls
-  		variables.instance.defaults = {
-  			cache = true,
-  			// leave blank to use cache defaults
-  			cacheTimeout = '10',
-  			// leave blank to use cache defaults
-  			cacheLastAccessTimeout = '5',
-  			cacheName = "default",
-  			// Register here for free:
-  			// http://www.ipinfodb.com
-  			developerKey = ''
-  		};
-  		
-  		return this;
+    <cffunction name="onDIComplete" access="public" output="false">
+		<cfscript>			
+			// Setting these here will apply to all calls
+	  		variables.instance.defaults = settings;
+	  		
+	  		return this;
 		</cfscript>
 	</cffunction>
 
@@ -35,7 +19,7 @@
 		<cfargument name="cacheLastAccessTimeout"	type="string"	required="false" default="#variables.instance.defaults.cacheLastAccessTimeout#">
 		<cfargument name="cacheName"				type="string"	required="false" default="#variables.instance.defaults.cacheName#" hint="Name of CacheBox Cache provider to use.">
 		<cfargument name="developerKey"				type="string"	required="false" default="#variables.instance.defaults.developerKey#" hint="Override the one specified in the plugin">
-		
+
 		<cfscript>
 			local.IPAddress = arguments.IPAddress;
 			if(!len(trim(local.IPAddress))) {
@@ -53,8 +37,8 @@
 			}
 			
 			// We are caching
-			local.cacheProvider = getColdboxOCM(arguments.cacheName);
-			local.cacheKey = variables.instance.cacheKeyPrefix & local.IPAddress;
+			local.cacheProvider = cachebox.getCache( arguments.cacheName );
+			local.cacheKey = variables.instance.defaults.cacheKeyPrefix & local.IPAddress;
 			
 			// Look for it
 			local.result = local.cacheProvider.get(local.cacheKey);
@@ -158,9 +142,9 @@
 		
 		<cfscript>
 			// Look for cache keys that start with the key prefix
-			local.regex = "^" & variables.instance.cacheKeyPrefix & ".*";
+			local.regex = "^" & variables.instance.defaults.cacheKeyPrefix & ".*";
 			 
-			local.cacheProvider = getColdboxOCM(arguments.cacheName);
+			local.cacheProvider = cachebox.getCache( arguments.cacheName );
 			local.keys = local.cacheProvider.getKeys();
 			// Loop over all keys
 			for(local.key in local.keys) {
