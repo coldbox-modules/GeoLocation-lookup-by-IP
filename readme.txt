@@ -1,4 +1,4 @@
-8/25/2013
+8/25/2014
 
 This is a ColdBox Module that will retrieve the following info for you based on your user's IP address using the API available at http://www.ipinfodb.com:
 - countryCode
