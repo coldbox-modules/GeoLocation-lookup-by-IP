@@ -7,7 +7,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 		// all your suites go here.
 		describe( "Gelocation Module", function(){
 			beforeEach( function( currentSpec ){
-				geoLocation = getInstance( "@Gelocation" );
+				geoLocation = getInstance( "GeoLocation@GeoLocation" );
 				setup();
 			} );
 
@@ -16,7 +16,9 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 			} );
 
 			it( "can get a location", function(){
-				writeDump( var = getLocation.getLocation(), top = 5 );
+				var results = geoLocation.getLocation( "96.68.73.49" );
+				expect( results ).toBeStruct().toHaveKey( "cityName,zipCode,latitude,longitude,timezone" );
+				expect( results.cityName ).toBe( "Houston" );
 			} );
 		} );
 	}

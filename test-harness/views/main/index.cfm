@@ -1,4 +1,4 @@
 <cfoutput>
 Module Tester
-<cfdump var="#getInstance( "@GeoLocation" ).getLocation()#">
+<cfdump var="#getGeoLocation( "96.68.73.49" )#">
 </cfoutput>

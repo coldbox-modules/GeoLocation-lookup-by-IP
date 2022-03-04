@@ -68,24 +68,6 @@
 			info = [ "coldbox.system" ]
 		};
 
-		moduleSettings = {
-			"GeoLocation-lookup-by-IP" : {
-				// Should results be cached
-				cache = true
-				// leave blank to use cache defaults
-				cacheTimeout = '10'
-				// leave blank to use cache defaults
-				cacheLastAccessTimeout = '5'
-				// Name of CacheBox provider to use
-				cacheName = "default"
-				// Prefix to be used for cache keys
-				cacheKeyPrefix = 'GeoLocation-'
-				// Register here for free:
-				// http://www.ipinfodb.com
-				developerKey = getSystemSetting( "GEOLOCATION_DEVELOPER_KEY", "" )
-			}
-		}
-
 	}
 
 	/**
@@ -98,6 +80,22 @@
 				moduleName 		= request.MODULE_NAME,
 				invocationPath 	= "moduleroot"
 			);
+
+		structAppend( controller.getConfigSettings().modules[ "geolocation-lookup-by-ip" ].settings, {
+			// Should results be cached
+			cache = true,
+			// leave blank to use cache defaults
+			cacheTimeout = '10',
+			// leave blank to use cache defaults
+			cacheLastAccessTimeout = '5',
+			// Name of CacheBox provider to use
+			cacheName = "default",
+			// Prefix to be used for cache keys
+			cacheKeyPrefix = 'GeoLocation-',
+			// Register here for free:
+			// http://www.ipinfodb.com
+			developerKey = getSystemSetting( "GEOLOCATION_DEVELOPER_KEY", "" )
+		}, true );
 	}
 
 }

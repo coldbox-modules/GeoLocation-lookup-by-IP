@@ -49,16 +49,16 @@ moduleSettings = {
 
     "GeoLocation-lookup-by-IP" : {
         // Should results be cached
-        cache = true
+        cache = true,
         // leave blank to use cache defaults
-        cacheTimeout = '10'
+        cacheTimeout = '10',
         // leave blank to use cache defaults
-        cacheLastAccessTimeout = '5'
+        cacheLastAccessTimeout = '5',
         // Name of CacheBox provider to use
-        cacheName = "default"
+        cacheName = "default",
         // Prefix to be used for cache keys
-        cacheKeyPrefix = 'GeoLocation-'
-        // Register here for free:
+        cacheKeyPrefix = 'GeoLocation-',
+        // Register here for free:,
         // http://www.ipinfodb.com
         developerKey = ''
     }
@@ -68,9 +68,8 @@ moduleSettings = {
 
 ## Usage
 
-You can retrieve the main model via injection or requesting it from WireBox using the following DSLs
+You can retrieve the main model via injection or requesting it from WireBox using the following DSL
 
-- `@GeoLocation`
 - `GeoLocation@GeoLocation`
 
 There are two two public methods:

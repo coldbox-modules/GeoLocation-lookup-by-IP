@@ -11,7 +11,14 @@
 	 *
 	 * @return struct of location details
 	 */
-	string function getGeoLocation( string key='', boolean forceNew=false ) {
+	function getGeoLocation(
+		IPAddress,
+		cache,
+		cacheTimeout,
+		cacheLastAccessTimeout,
+		cacheName,
+		developerKey
+	) {
 		return getInstance( 'GeoLocation@GeoLocation' ).getLocation( argumentCollection = arguments );
 	}
 
