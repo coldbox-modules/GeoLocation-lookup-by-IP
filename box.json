@@ -1,16 +1,16 @@
 {
 	"name" 		: "GeoLocation By IP",
 	"version"	: "3.0.0",
-	"location":"https://downloads.ortussolutions.com/ortussolutions/coldbox-modules/geolocation-lookup-by-ip/@build.version@/geolocation-lookup-by-ip-@build.version@.zip",
+	"location":"https://downloads.ortussolutions.com/ortussolutions/coldbox-modules/GeoLocation-lookup-by-IP/@build.version@/GeoLocation-lookup-by-IP-@build.version@.zip",
 	"author":"Ortus Solutions.com <info@ortussolutions.com>",
-	"slug"		: "geolocation-lookup-by-ip",
+	"slug"		: "GeoLocation-lookup-by-IP",
 	"type"		: "modules",
 	"shortDescription" : "Look up and cache a user's countryCode, countryName, regionName, cityName, , zipCode, latitude, longitude, and timeZone by IP address.",
-	"homepage":"https://github.com/coldbox-modules/geolocation-lookup-by-ip",
-    "documentation":"https://github.com/coldbox-modules/geolocation-lookup-by-ip",
+	"homepage":"https://github.com/coldbox-modules/GeoLocation-lookup-by-IP",
+    "documentation":"https://github.com/coldbox-modules/GeoLocation-lookup-by-IP",
 	"repository":{
         "type":"git",
-        "url":"https://github.com/coldbox-modules/geolocation-lookup-by-ip"
+        "url":"https://github.com/coldbox-modules/GeoLocation-lookup-by-IP"
     },
     "license":[
         {

@@ -1,4 +1,4 @@
-name: @MODULE_NAME@ CI
+name: GeoLocation-lookup-by-IP CI
 
 # Only on Development we build snapshots
 on:
@@ -8,7 +8,7 @@ on:
       - master
 
 env:
-  MODULE_ID: @MODULE_SLUG@
+  MODULE_ID: GeoLocation-lookup-by-IP
 
 jobs:
   #############################################
@@ -37,15 +37,6 @@ jobs:
         with:
           distribution: "adopt"
           java-version: "11"
-
-      - name: Cache CommandBox Dependencies
-        uses: actions/cache@v1
-        if: ${{ true }}
-        with:
-          path: ~/.CommandBox/artifacts
-          key: ${{ runner.OS }}-commandbox-cache-${{ hashFiles( 'box.json' ) }}-${{ hashFiles( 'test-harness/box.json' ) }}
-          restore-keys: |
-            ${{ runner.OS }}-commandbox-cache-${{ hashFiles( 'box.json' ) }}-${{ hashFiles( 'test-harness/box.json' ) }}
 
       - name: Setup CommandBox
         uses: Ortus-Solutions/setup-commandbox@main
