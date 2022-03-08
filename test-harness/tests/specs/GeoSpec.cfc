@@ -18,12 +18,12 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 			it( "can get a location", function(){
 				var results = geoLocation.getLocation( "96.68.73.49" );
 				expect( results ).toBeStruct().toHaveKey( "cityName,zipCode,latitude,longitude,timezone" );
-				expect( results.cityName ).toBe( "Houston" );
+				expect( results.cityName ).toBe( "Houston", results.toString() );
 			} );
 
 			it( "can clear the cache", function(){
 				var results = geoLocation.getLocation( "96.68.73.49" );
-				expect( results.cityName ).toBe( "Houston" );
+				expect( results.cityName ).toBe( "Houston", results.toString() );
 				expect( geoLocation.getGeoCache().getKeys() ).notToBeEmpty();
 				geoLocation.clearCache();
 				expect( geoLocation.getGeoCache().getKeys() ).toBeEmpty();
