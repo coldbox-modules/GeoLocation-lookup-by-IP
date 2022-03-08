@@ -13,7 +13,8 @@
         },
 		"webroot": "test-harness",
 		"aliases":{
-            "/moduleroot/GeoLocation-lookup-by-IP":"./"
+            "/moduleroot/GeoLocation-lookup-by-IP":"./",
+			"/GeoLocation":"./"
         }
     },
     "openBrowser":"false"
