@@ -41,9 +41,9 @@ jobs:
           printf "GEOLOCATION_DEVELOPER_KEY=${{ secrets.GEOLOCATION_DEVELOPER_KEY }}\n" >> .env
 
       - name: Install Test Harness Dependencies
-        working-directory: ./test-harness
         run: |
           box install
+          cd test-harness && box install
 
       - name: Start ${{ matrix.cfengine }} Server
         run: |

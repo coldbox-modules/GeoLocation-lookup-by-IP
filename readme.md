@@ -72,7 +72,12 @@ You can retrieve the main model via injection or requesting it from WireBox usin
 
 - `GeoLocation@GeoLocation`
 
-There are two two public methods:
+There are two two public methods that you can use
+
+* `getLocation()` - To get a location from an IP Address
+* `clearCache()` - To clear the geo cache
+
+You can also use our handy mixin called: `getGeoLocation()` from any handler, interceptor, layout or view.
 
 ### getLocation()
 
