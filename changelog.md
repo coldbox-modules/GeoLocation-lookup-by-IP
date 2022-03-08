@@ -16,3 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Cleanup + formatting
 * Automation
 * New helper: `getGeoLocation()`
+* Case sensitivity for location details return structure
+* Added error logging to the response structure
+* Modernization of the code
+* Updated the retrieval of the IP address to a nice function
