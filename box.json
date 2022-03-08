@@ -1,14 +1,14 @@
 {
-	"name" 		: "GeoLocation By IP",
-	"version"	: "3.0.0",
-	"location":"https://downloads.ortussolutions.com/ortussolutions/coldbox-modules/GeoLocation-lookup-by-IP/@build.version@/GeoLocation-lookup-by-IP-@build.version@.zip",
-	"author":"Ortus Solutions.com <info@ortussolutions.com>",
-	"slug"		: "GeoLocation-lookup-by-IP",
-	"type"		: "modules",
-	"shortDescription" : "Look up and cache a user's countryCode, countryName, regionName, cityName, , zipCode, latitude, longitude, and timeZone by IP address.",
-	"homepage":"https://github.com/coldbox-modules/GeoLocation-lookup-by-IP",
+    "name":"GeoLocation By IP",
+    "version":"3.1.0",
+    "location":"https://downloads.ortussolutions.com/ortussolutions/coldbox-modules/GeoLocation-lookup-by-IP/@build.version@/GeoLocation-lookup-by-IP-@build.version@.zip",
+    "author":"Ortus Solutions.com <info@ortussolutions.com>",
+    "slug":"GeoLocation-lookup-by-IP",
+    "type":"modules",
+    "shortDescription":"Look up and cache a user's countryCode, countryName, regionName, cityName, , zipCode, latitude, longitude, and timeZone by IP address.",
+    "homepage":"https://github.com/coldbox-modules/GeoLocation-lookup-by-IP",
     "documentation":"https://github.com/coldbox-modules/GeoLocation-lookup-by-IP",
-	"repository":{
+    "repository":{
         "type":"git",
         "url":"https://github.com/coldbox-modules/GeoLocation-lookup-by-IP"
     },
@@ -22,35 +22,43 @@
         "Brad Wood <brad@ortussolutions.com>",
         "Luis Majano <lmajano@ortussolutions.com>"
     ],
-	"engines"	: [
-		{ "type" : "lucee", "version" : ">5" },
-		{ "type" : "adobe", "version" : ">2018" },
-		{ "type" : "coldbox", "version" : ">5" }
-	],
-	"dependencies" 	:{
-	},
-	"devDependencies" 	:{
-		"commandbox-cfformat":"*",
+    "engines":[
+        {
+            "type":"lucee",
+            "version":">5"
+        },
+        {
+            "type":"adobe",
+            "version":">2018"
+        },
+        {
+            "type":"coldbox",
+            "version":">5"
+        }
+    ],
+    "dependencies":{},
+    "devDependencies":{
+        "commandbox-cfformat":"*",
         "commandbox-docbox":"*",
-		"commandbox-dotenv":"*",
+        "commandbox-dotenv":"*",
         "commandbox-cfconfig":"*"
-	},
-	"ignore":[
+    },
+    "ignore":[
         "**/.*",
         "test-harness",
-		"/server*.json"
+        "/server*.json"
     ],
-	"testbox":{
+    "testbox":{
         "runner":"http://localhost:60299/tests/runner.cfm"
     },
     "scripts":{
         "build:module":"task run taskFile=build/Build.cfc :projectName=`package show slug` :version=`package show version`",
-		"build:docs":"task run taskFile=build/Build.cfc target=docs :projectName=`package show slug` :version=`package show version`",
+        "build:docs":"task run taskFile=build/Build.cfc target=docs :projectName=`package show slug` :version=`package show version`",
         "release":"recipe build/release.boxr",
         "format":"cfformat run helpers,models,test-harness/tests/,ModuleConfig.cfc --overwrite",
         "format:watch":"cfformat watch helpers,models,test-harness/tests/,ModuleConfig.cfc ./.cfformat.json",
         "format:check":"cfformat check helpers,models,test-harness/tests/,ModuleConfig.cfc",
-		"cfpm":"echo '\".engine/adobe2021/WEB-INF/cfusion/bin/cfpm.sh\"' | run",
+        "cfpm":"echo '\".engine/adobe2021/WEB-INF/cfusion/bin/cfpm.sh\"' | run",
         "cfpm:install":"echo '\".engine/adobe2021/WEB-INF/cfusion/bin/cfpm.sh\" install ${1}' | run",
         "install:2021":"run-script cfpm:install zip,debugger"
     }
