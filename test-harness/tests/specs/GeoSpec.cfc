@@ -7,8 +7,8 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 		// all your suites go here.
 		describe( "Gelocation Module", function(){
 			beforeEach( function( currentSpec ){
-				geoLocation = getInstance( "GeoLocation@GeoLocation" );
 				setup();
+				geoLocation = getInstance( "GeoLocation@GeoLocation" );
 			} );
 
 			it( "should register the component", function(){
