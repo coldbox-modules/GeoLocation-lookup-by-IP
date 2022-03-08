@@ -31,7 +31,7 @@ component {
 		""
 	);
 	this.mappings[ "/moduleroot" ]            = moduleRootPath;
-	this.mappings[ "/#request.MODULE_SLUG#" ] = moduleRootPath & "#request.MODULE_NAME#";
+	this.mappings[ "/#request.MODULE_SLUG#" ] = moduleRootPath;
 
 	// ORM Definitions
 	/**
