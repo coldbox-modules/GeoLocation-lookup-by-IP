@@ -119,13 +119,16 @@ component singleton {
 
 			var fileContent = HTTPResult.getPrefix().fileContent;
 
-			if ( !isJSON( local.fileContent ) ) {
+			log.info( "geo request", httpResult );
+
+			if ( !isJSON( fileContent ) ) {
 				throw(
 					type    = "InvalidNonJsonResponse",
 					message = "Non-JSON response from IPInfoDB API",
-					detail  = local.fileContent
+					detail  = fileContent
 				);
 			}
+
 
 			structAppend( response, deserializeJSON( fileContent ), true );
 
