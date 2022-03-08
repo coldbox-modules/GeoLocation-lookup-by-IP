@@ -18,6 +18,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     secrets:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      GEOLOCATION_DEVELOPER_KEY: ${{ secrets.GEOLOCATION_DEVELOPER_KEY }}
 
   #############################################
   # Build ContentBox

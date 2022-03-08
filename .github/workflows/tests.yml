@@ -6,6 +6,8 @@ on:
     secrets:
       SLACK_WEBHOOK_URL:
         required: true
+      GEOLOCATION_DEVELOPER_KEY:
+        required: true
 
 jobs:
   tests:
