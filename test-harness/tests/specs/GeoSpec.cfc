@@ -15,10 +15,21 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 				expect( geoLocation ).toBeComponent();
 			} );
 
-			it( "can get a location", function(){
+			it( "can get a location with caching defaults", function(){
 				var results = geoLocation.getLocation( "96.68.73.49" );
 				expect( results ).toBeStruct().toHaveKey( "cityName,zipCode,latitude,longitude,timezone" );
 				expect( results.cityName ).toBe( "Houston", results.toString() );
+				expect( results.cached ).toBe( false );
+
+				var results = geoLocation.getLocation( "96.68.73.49" );
+				expect( results.cached ).toBe( true );
+			} );
+
+			it( "can get a location with no cache", function(){
+				var results = geoLocation.getLocation( ipAddress = "96.68.73.49", cache = false );
+				expect( results ).toBeStruct().toHaveKey( "cityName,zipCode,latitude,longitude,timezone" );
+				expect( results.cityName ).toBe( "Houston", results.toString() );
+				expect( results.cached ).toBe( false );
 			} );
 
 			it( "can clear the cache", function(){

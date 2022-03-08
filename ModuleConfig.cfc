@@ -22,16 +22,17 @@ component {
 	 */
 	function configure(){
 		settings = {
-			cache                  : true,
-			// leave blank to use cache defaults
-			cacheTimeout           : "10",
-			// leave blank to use cache defaults
-			cacheLastAccessTimeout : "5",
-			cacheName              : "default",
-			cacheKeyPrefix         : "GeoLocation-",
+			// Cache subsequent ip address lookups for performance
+			cache          : true,
+			// How many minutes to cache the IP lookup
+			cacheTimeout   : "60",
+			// The default cache provider to use
+			cacheName      : "default",
+			// The cache prefix to use on all ip keys
+			cacheKeyPrefix : "GeoLocation-",
 			// Register here for free:
-			// http://www.ipinfodb.com
-			developerKey           : ""
+			// https://www.ipinfodb.com
+			developerKey   : ""
 		};
 	}
 

@@ -20,3 +20,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added error logging to the response structure
 * Modernization of the code
 * Updated the retrieval of the IP address to a nice function
+* Added a `cached` key in the resposne to denote if the lookup is fresh or cached
+* Simplified the api to not be passing all the settings around

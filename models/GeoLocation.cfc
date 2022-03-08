@@ -12,28 +12,25 @@ component singleton {
 	 * Constructor
 	 */
 	function init(){
-		variables.GEO_SERVICE_URL = "http://api.ipinfodb.com/v3/ip-city/";
+		variables.GEO_SERVICE_URL     = "http://api.ipinfodb.com/v3/ip-city/";
+		variables.GEO_SERVICE_TIMEOUT = 5;
 		return this;
 	}
 
 	/**
 	 * Get the associated cache provider for this module
-	 *
-	 * @cacheName The cache provider override
 	 */
-	function getGeoCache( string cacheName = "#variables.settings.cacheName#" ){
-		return variables.cachebox.getCache( arguments.cacheName );
+	function getGeoCache(){
+		return variables.cachebox.getCache( variables.settings.cacheName );
 	}
 
 	/**
 	 * Clear the lookup cache
-	 *
-	 * @cacheName The cache provider override
 	 */
-	GeoLocation function clearCache( string cacheName = "#variables.settings.cacheName#" ){
+	GeoLocation function clearCache(){
 		// Look for cache keys that start with the key prefix
 		var regex         = "^" & variables.settings.cacheKeyPrefix & ".*";
-		var cacheProvider = getGeoCache( arguments.cacheName );
+		var cacheProvider = getGeoCache();
 
 		cacheProvider
 			.getKeys()
@@ -50,37 +47,33 @@ component singleton {
 	/**
 	 * Get the location details of an IP Address
 	 *
-	 * @IPAddress              The ip address to lookup, if not passed in, we will auto-determine it
-	 * @cache                  If true, we will cache the ip vs result
-	 * @cacheTimeout           The cache timeout in minutes
-	 * @cacheLastAccessTimeout The cache last access timeout
-	 * @cacheName              The cache name to use to store the lookup. Defaults to the `template` scope
-	 * @developerKey           A custom key to use or the one seeded into the module configuration
+	 * @IPAddress The ip address to lookup, if not passed in, we will auto-determine it
+	 * @cache     If true, we will cache the ip vs result
 	 *
 	 * @return struct of location details
 	 */
-	function getLocation(
-		IPAddress              = getRealIp(),
-		cache                  = "#variables.settings.cache#",
-		cacheTimeout           = "#variables.settings.cacheTimeout#",
-		cacheLastAccessTimeout = "#variables.settings.cacheLastAccessTimeout#",
-		cacheName              = "#variables.settings.cacheName#",
-		developerKey           = "#variables.settings.developerKey#"
-	){
+	function getLocation( IPAddress = getRealIp(), cache = "#variables.settings.cache#" ){
 		// Not caching
 		if ( !arguments.cache ) {
-			return getDetails( arguments.IPAddress, arguments.developerKey );
+			return getDetails( arguments.IPAddress, variables.settings.developerKey );
 		}
 
-		// Look for it
-		return getGeoCache( arguments.cacheName ).getOrSet(
-			variables.settings.cacheKeyPrefix & arguments.IPAddress,
-			function(){
-				return getDetails( IPAddress, developerKey );
-			},
-			arguments.cacheTimeout,
-			arguments.cacheLastAccessTimeout
-		);
+		var cacheKey      = variables.settings.cacheKeyPrefix & arguments.IPAddress;
+		var cacheProvider = getGeoCache();
+		var results       = cacheProvider.get( cacheKey );
+
+		if ( isNull( results ) ) {
+			results = getDetails( arguments.IPAddress, variables.settings.developerKey );
+			cacheProvider.set(
+				cacheKey,
+				results,
+				variables.settings.cacheTimeout,
+				0
+			);
+		} else {
+			results.cached = true;
+		}
+		return results;
 	}
 
 	/**
@@ -106,37 +99,52 @@ component singleton {
 			"zipCode"       : "",
 			"latitude"      : "0",
 			"longitude"     : "0",
-			"timeZone"      : ""
+			"timeZone"      : "",
+			"cached"        : false
 		};
 
 		try {
-			var HTTPResult = new http(
-				url          = "#variables.GEO_SERVICE_URL#?key=#arguments.developerKey#&ip=#arguments.IPAddress#&format=json",
+			cfhttp(
+				url          = "#variables.GEO_SERVICE_URL#",
 				method       = "GET",
-				timeout      = "5",
-				throwOnError = true
-			).send();
+				timeout      = "#variables.GEO_SERVICE_TIMEOUT#",
+				throwOnError = true,
+				charset      = "utf-8",
+				result       = "httpResult"
+			) {
+				cfhttpParam(
+					name  = "key",
+					value = arguments.developerKey,
+					type  = "url"
+				);
+				cfhttpParam(
+					name  = "ip",
+					value = arguments.IPAddress,
+					type  = "url"
+				);
+				cfhttpParam( name = "format", value = "json", type = "url" );
+			}
 
-			var fileContent = HTTPResult.getPrefix().fileContent;
-
-			log.info( "geo request", httpResult );
-
-			if ( !isJSON( fileContent ) ) {
+			if ( !isJSON( httpResult.fileContent ) ) {
 				throw(
 					type    = "InvalidNonJsonResponse",
 					message = "Non-JSON response from IPInfoDB API",
-					detail  = fileContent
+					detail  = httpResult.fileContent
 				);
 			}
 
 
-			structAppend( response, deserializeJSON( fileContent ), true );
+			structAppend(
+				response,
+				deserializeJSON( httpResult.fileContent ),
+				true
+			);
 
 			if ( response.statusCode != "OK" ) {
 				throw(
 					type    = "GeoLocationServiceException",
 					message = "Non-'OK' response from IPInfoDB API",
-					detail  = fileContent
+					detail  = httpResult.fileContent
 				);
 			}
 
@@ -149,7 +157,7 @@ component singleton {
 		} catch ( any e ) {
 			variables.log.error( e.message, e.detail );
 			response.statusMessage = e.message & e.detail;
-			response.stackTrace = e.stacktrace;
+			response.stackTrace    = e.stacktrace;
 		}
 
 		// We should always make it here and fail silently if anything goes boom above.

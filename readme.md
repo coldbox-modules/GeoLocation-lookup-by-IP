@@ -1,6 +1,6 @@
 # Geolocation Lookup Module
 
-[![Build Status](https://github.com/ColdBox/coldbox-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/ColdBox/coldbox-platform/actions/workflows/)
+[![GeoLocation-lookup-by-IP CI](https://github.com/coldbox-modules/GeoLocation-lookup-by-IP/actions/workflows/ci.yml/badge.svg?branch=development)](https://github.com/coldbox-modules/GeoLocation-lookup-by-IP/actions/workflows/ci.yml)
 
 This module will retrieve geolocation information for a specific user's ip address using the API available at https://www.ipinfodb.com.
 
@@ -8,18 +8,21 @@ This module will retrieve geolocation information for a specific user's ip addre
 
 The following and more information will be retrieved for you:
 
+- cached
+- cityName
 - countryCode
 - countryName
-- regionName
-- cityName
-- zipCode
 - latitude
 - longitude
+- regionName
 - timeZone
+- zipCode
 
 ```xml
 <cfdump var="#getModel( 'GeoLocation@GeoLocation' ).getLocation()#">
 ```
+
+Please note the `cached` key which will denote if the lookup is a fresh lookup or a cached request.
 
 ## License
 
@@ -48,19 +51,17 @@ You can then continue to configure the module in your `config/Coldbox.cfc`.
 moduleSettings = {
 
     "GeoLocation-lookup-by-IP" : {
-        // Should results be cached
-        cache = true,
-        // leave blank to use cache defaults
-        cacheTimeout = '10',
-        // leave blank to use cache defaults
-        cacheLastAccessTimeout = '5',
-        // Name of CacheBox provider to use
-        cacheName = "default",
-        // Prefix to be used for cache keys
-        cacheKeyPrefix = 'GeoLocation-',
-        // Register here for free:,
-        // http://www.ipinfodb.com
-        developerKey = ''
+        // Cache subsequent ip address lookups for performance
+		cache          : true,
+		// How many minutes to cache the IP lookup
+		cacheTimeout   : "60",
+		// The default cache provider to use
+		cacheName      : "default",
+		// The cache prefix to use on all ip keys
+		cacheKeyPrefix : "GeoLocation-",
+		// Register here for free:
+		// https://www.ipinfodb.com
+		developerKey   : ""
     }
 
 }
@@ -82,32 +83,28 @@ You can also use our handy mixin called: `getGeoLocation()` from any handler, in
 ### getLocation()
 
 ```js
-var result = GeoLocation.getLocation();
+var result = geoLocation.getLocation();
 ```
 
-By default, it will use the IP address obtained from the CGI scope (taking into account a forwarded request).  By default, this method will also cache the result in your default CacheBox provider for 10 minutes.
+By default, it will use the IP address obtained from the CGI scope (taking into account a forwarded request).  By default, this method will also cache the result in your default CacheBox provider for 60 minutes.
 
 This method takes the following optional parameters that override the module defaults:
 
 - `IPAddress`
 - `cache`
-- `cacheTimeout`
-- `cacheLastAccessTimeout`
-- `cacheName`
-- `developerKey`
 
 ### clearCache()
 
 This method will clear out any items in the cache that it put there.
-This method takes the following optional parameter that override the module defaults:
 
-- `cacheName`
+---
 
 This code comes with no warranties, promises, or rainbows.  In fact, it will probably kick your cat.
 
 Brad Wood
+
 - brad@bradwood.com
-- http://www.codersrevolution.com
+- https://www.codersrevolution.com
 
 ********************************************************************************
 Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
