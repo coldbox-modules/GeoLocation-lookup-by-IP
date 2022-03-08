@@ -149,6 +149,7 @@ component singleton {
 		} catch ( any e ) {
 			variables.log.error( e.message, e.detail );
 			response.statusMessage = e.message & e.detail;
+			response.stackTrace = e.stacktrace;
 		}
 
 		// We should always make it here and fail silently if anything goes boom above.
