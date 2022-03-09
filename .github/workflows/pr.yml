@@ -14,8 +14,6 @@ jobs:
   # UPDATE TO THE MODULE REPO SO PR'S CAN REUSE IT
   tests:
     uses: coldbox-modules/GeoLocation-lookup-by-IP/.github/workflows/tests.yml@development
-    with:
-      MODULE_ID: ${{ env.MODULE_ID }}
     secrets:
       GEOLOCATION_DEVELOPER_KEY: ${{ secrets.GEOLOCATION_DEVELOPER_KEY }}
 
