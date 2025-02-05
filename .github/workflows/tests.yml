@@ -16,10 +16,15 @@ jobs:
     env:
       DB_USER: root
       DB_PASSWORD: root
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
         cfengine: [ "lucee@5", "adobe@2018", "adobe@2021" ]
+        experimental: [ false ]
+        include:
+          - cfengine: "boxlang@1"
+            experimental: true
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -32,6 +37,11 @@ jobs:
 
       - name: Setup CommandBox CLI
         uses: Ortus-Solutions/setup-commandbox@main
+
+      - name: Update Commandbox Boxlang Module
+        if: ${{ matrix.cfengine == 'boxlang@1' }}
+        run:
+          box install --force commandbox-boxlang
 
       - name: Setup Environment For Testing Process
         run: |
@@ -68,7 +78,7 @@ jobs:
 
       - name: Upload Test Results to Artifacts
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: test-results-${{ matrix.cfengine }}
           path: |
@@ -81,7 +91,7 @@ jobs:
 
       - name: Upload Debug Logs To Artifacts
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Failure Debugging Info - ${{ matrix.cfengine }}
           path: |
